@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body, html { margin: 0; padding: 0; overflow: hidden; background: black; }
+        img { width: 640px; height: 640px; object-fit: cover; }
+    </style>
+</head>
+<body>
+    <img id="display" src="cool.gif">
+
+    <script>
+        // NZXT CAM sends data every second to this function
+        window.nzxt = {
+            v1: {
+                onMonitoringDataUpdate: (data) => {
+                    const cpuTemp = data.cpus[0].temperature;
+                    const display = document.getElementById('display');
+
+                    // Set threshold (e.g., 60°C)
+                    if (cpuTemp > 60) {
+                        if (!display.src.includes('hot.gif')) display.src = 'hot.gif';
+                    } else {
+                        if (!display.src.includes('cool.gif')) display.src = 'cool.gif';
+                    }
+                }
+            }
+        };
+    </script>
+</body>
+</html>
